@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package snap;
+
+// Interface exported by the server.
+service Snap {
+  rpc getSnap(Snap) returns (Snap) {}
+  
+  // SaveCurrencyStream sends multiple currencies to server to be saved
+  // returns a list of saved currency.
+  // Example of using client stream to server.
+  rpc SaveSnapStream(stream Snap) returns (SnapList){}
+
+  rpc snapStream(stream Snap) returns (SnapSummary) {}
+}
+
+message Point {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message Snap {
+  required int64 id = 1;
+  Point location = 2;
+  int32 direction = 3;
+  int32 speed = 4;
+  int32 altitude = 5;
+  float gforce = 6;
+}
+
+message StatusResp {
+  string id = 1;
+}
+
+message SnapSummary {
+  string id = 1;
+}
+
+// SnapList used for list of currencies
+message SnapList {
+  repeated Snap snaps = 1;
+}
